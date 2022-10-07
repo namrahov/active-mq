@@ -13,7 +13,7 @@ public class TruckController {
         this.truckService = truckService;
     }
 
-    @GetMapping
+    @PostMapping
     public void sendData() {
         truckService.sendData();
     }

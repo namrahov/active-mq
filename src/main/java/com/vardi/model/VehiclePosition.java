@@ -14,16 +14,14 @@ public class VehiclePosition implements Comparable<VehiclePosition> {
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone="UTC")
     private Date timestamp;
-    private BigDecimal speed;
 
     VehiclePosition() {}
 
-    VehiclePosition(String name, BigDecimal lat, BigDecimal lng, Date timestamp, BigDecimal speed) {
+    VehiclePosition(String name, BigDecimal lat, BigDecimal lng, Date timestamp) {
         this.name = name;
         this.lat = lat;
         this.longitude = lng;
         this.timestamp = timestamp;
-        this.speed = speed;
     }
 
     @Override
@@ -67,26 +65,13 @@ public class VehiclePosition implements Comparable<VehiclePosition> {
         return this.name;
     }
 
-    public BigDecimal getLat() {
-        return this.lat;
-    }
-
-    public BigDecimal getLongitude() {
-        return this.longitude;
-    }
-
-    public Date getTimestamp() {
-        return this.timestamp;
-    }
-
-    public BigDecimal getSpeed() {
-        return this.speed;
-    }
-
     @Override
     public String toString() {
-        return "VehiclePosition [name=" + name + ", lat=" + lat + ", longitude=" + longitude + ", timestamp="
-                + timestamp + ", speed=" + speed + "]";
+        return "VehiclePosition{" +
+                "name='" + name + '\'' +
+                ", lat=" + lat +
+                ", longitude=" + longitude +
+                ", timestamp=" + timestamp +
+                '}';
     }
-
 }

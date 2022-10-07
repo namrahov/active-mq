@@ -1,7 +1,6 @@
 package com.vardi.service;
 
 import com.vardi.utils.VehicleNameUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -30,10 +29,8 @@ public class TruckService {
 
     public void sendData() {
         List<Map<String, List<String>>> mapList = setUpData();
-        //System.out.println(mapList);
+
         for (Map<String, List<String>> reports : mapList) {
-
-
             for (List<String> rows : reports.values()) {
                 for (String nextReport : rows) {
                     if(nextReport.isEmpty()) break;
@@ -41,7 +38,6 @@ public class TruckService {
                     String lat = data[1];
                     String longitude = data[3];
 
-                    // Spring will convert a HashMap into a MapMessage using the default MessageConverter.
                     HashMap<String, String> positionMessage = new HashMap<>();
                     Optional<String> names = reports.entrySet()
                             .stream()
@@ -55,10 +51,7 @@ public class TruckService {
                     positionMessage.put("time", formatter.format(new java.util.Date()));
 
                     sendToQueue(positionMessage);
-                   // System.out.println(positionMessage);
 
-                    // We have an element of randomness to help the queue be nicely
-                    // distributed
                     delay(Math.random() * 10000 + 2000);
                 }
             }
@@ -98,12 +91,10 @@ public class TruckService {
     private void sendToQueue(Map<String, String> positionMessage) {
         boolean messageNotSent = true;
         while (messageNotSent) {
-            // broadcast this report
             try {
                 jmsTemplate.convertAndSend(queueName, positionMessage);
                 messageNotSent = false;
             } catch (UncategorizedJmsException e) {
-                // we are going to assume that this is due to downtime - back off and go again
                 delay(5000);
             }
         }

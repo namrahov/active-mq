@@ -11,9 +11,8 @@ import java.util.Map;
 
 @Component
 public class MessageConsumer {
-
-    @JmsListener(destination="${fleetman.position.queue}")
-    public void processPositionMessageFromQueue(Map<String, String> incomingMessage ) {
+    @JmsListener(destination = "${fleetman.position.queue}")
+    public void processPositionMessageFromQueue(Map<String, String> incomingMessage) {
         Date convertedDatestamp = new java.util.Date();
 
         VehiclePosition newReport = new VehicleBuilder()
@@ -22,7 +21,7 @@ public class MessageConsumer {
                 .withLng(new BigDecimal(incomingMessage.get("long")))
                 .withTimestamp(convertedDatestamp)
                 .build();
+
         System.out.println(newReport);
     }
-
 }
